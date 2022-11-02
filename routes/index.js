@@ -1,9 +1,9 @@
 const express = require('express')
-const { get } = require('../controllers/index')
+const { getUsers } = require('../controllers/users/usersListAllController')
 
 const router = express.Router()
 
 // example of a route with index controller get function
-router.get('/', get)
+router.get('/test', getUsers)
 
 module.exports = router
