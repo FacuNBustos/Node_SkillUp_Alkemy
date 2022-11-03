@@ -14,12 +14,13 @@ module.exports = (sequelize, DataTypes) => {
     amount: DataTypes.DECIMAL,
     userId: DataTypes.INTEGER,
     categoryId: DataTypes.INTEGER,
-    date: DataTypes.DATE
+    date: DataTypes.DATE,
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'transaction',
     timestamps: true,
-    paranoid: true
+    paranoid: true,
   });
   return transaction;
 };
