@@ -1,19 +1,15 @@
 const createHttpError = require('http-errors')
-const { Test } = require('../../database/models/')
+const { user } = require('../../database/models')
 const { endpointResponse } = require('../../helpers/success')
 const { catchAsync } = require('../../helpers/catchAsync')
 
+
+
 // example of a controller. First call the service, then build the controller method
 module.exports = {
-  getUsers: catchAsync(async (req, res, next) => {
+  getAllUsers: catchAsync(async (req, res, next) => {
     try {
-      const response = await Test.findAll(
-      //   {
-      //   attributes: [
-      //     'name', 'lastName', 'email', 'date'
-      //      ]
-      // }
-      )
+      const response = await user.findAll()
       endpointResponse({
         res,
         message: 'Test retrieved successfully',
