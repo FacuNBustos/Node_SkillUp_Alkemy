@@ -3,18 +3,17 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class category extends Model {
+  class role extends Model {
     static associate(models) {
-      category.hasMany(models.transaction, { foreignKey: 'categoryId' });
+      role.hasMany(models.user)
     }
   };
-  category.init({
+  role.init({
     name: DataTypes.STRING,
     description: DataTypes.STRING
   }, {
     sequelize,
-    timestamps: true,
-    modelName: 'category',
+    modelName: 'role',
   });
-  return category;
+  return role;
 };
