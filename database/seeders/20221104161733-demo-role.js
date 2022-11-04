@@ -7,7 +7,7 @@ module.exports = {
       description: "Absolute sysadmin permissions"
     }, {
       name: "user",
-      description: "default user permissions"
+      description: "Default user permissions"
     }])
   },
   down: async (queryInterface, Sequelize) => {
