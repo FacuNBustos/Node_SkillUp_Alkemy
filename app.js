@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
 app.use("/users", userRouter);
-app.use('/transaction',transactionRouter)
+app.use('/transactions',transactionRouter)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
