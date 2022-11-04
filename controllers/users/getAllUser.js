@@ -22,7 +22,7 @@ module.exports = {
     } catch (error) {
       const httpError = createHttpError(
         error.statusCode,
-        `[Error retrieving index] - [index - GET]: ${error.message}`,
+        `[Error getting all users] - [user - GET]: ${error.message}`,
       )
       next(httpError);
     }
