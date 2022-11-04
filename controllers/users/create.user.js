@@ -26,7 +26,6 @@ module.exports = {
           'firstName',
           'lastName',
           'email',
-          'password',
           'avatar',
           'roleId',
           'createdAt'],
