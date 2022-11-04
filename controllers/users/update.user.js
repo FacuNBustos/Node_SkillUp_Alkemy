@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const { Op } = require('sequelize');
 const { catchAsync } = require('../../helpers/catchAsync');
 const { endpointResponse } = require('../../helpers/success');
 const { ErrorObject } = require('../../helpers/error');
@@ -16,8 +17,13 @@ module.exports = {
       }
 
       if (newData.email) {
-        const userSameEmail = await User.findOne({ email: newData.email });
-        if (userSameEmail && userSameEmail.id !== id) {
+        const existUserSameEmail = await User.findOne({
+          where: {
+            email: newData.email,
+            id: { [Op.not]: id },
+          },
+        });
+        if (existUserSameEmail) {
           throw new ErrorObject('The email is not valid', 400);
         }
       }
