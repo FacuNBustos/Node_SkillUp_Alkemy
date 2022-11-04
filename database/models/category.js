@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       category.hasMany(models.transaction, { foreignKey: 'categoryId' });
     }
+
   };
   category.init({
     name: DataTypes.STRING,

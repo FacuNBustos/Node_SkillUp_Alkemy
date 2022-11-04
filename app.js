@@ -8,6 +8,8 @@ require('dotenv').config()
 
 const indexRouter = require('./routes/index')
 const transactionRouter = require("./routes/transaction")
+const userRouter = require('./routes/user');
+
 const port = process.env.PORT || 3000
 
 const app = express()
@@ -21,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
 app.use('/transactions',transactionRouter);
+app.use("/users", userRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
