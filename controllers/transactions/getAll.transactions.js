@@ -22,10 +22,7 @@ module.exports = {
           }
         ]
       });
-      
-      if(!response.lenght){
-        throw new ErrorObject("Transactions not found",404);
-      }
+    
 
       endpointResponse({
         res,
