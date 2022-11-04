@@ -15,6 +15,13 @@ module.exports = {
         throw new ErrorObject('The user could not be found', 404);
       }
 
+      if (newData.email) {
+        const userSameEmail = await User.findOne({ email: newData.email });
+        if (userSameEmail && userSameEmail.id !== id) {
+          throw new ErrorObject('The email is not valid', 400);
+        }
+      }
+
       if (newData.password) {
         req.body.password = bcrypt.hashSync(newData.password, 10);
       }
