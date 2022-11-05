@@ -16,7 +16,7 @@ module.exports = {
         }
         endpointResponse({
             res,
-            code: 200,
+            code: 201,
             body: newTransaction,
             message: 'The transaction was successfully created',
         })
