@@ -32,7 +32,7 @@ module.exports = {
         } catch (error) {
             const httpError = createHttpError(
                 error.statusCode,
-                `[Error retrieving index] - [index - GET] ${error.message}`
+                `[Error at delete transaction] - [transactions - DELETE] ${error.message}`
             )
             next(httpError)
         }
