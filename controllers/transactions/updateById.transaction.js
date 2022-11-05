@@ -4,45 +4,54 @@ const { ErrorObject }= require("../../helpers/error");
 const { user,transaction,category } = require("../../database/models");
 const createHttpError = require("http-errors");
 
-
-
-// await transaction.update(req.body, {
-//     where: { id: req.params.id },
-//   });
-//   res.json({ success: "modificado" });
-
-
 module.exports = {
-    getById: catchAsync(async (req, res, next) => {
-
-      const {id} = req.params;
-
+    updateById: catchAsync(async (req, res, next) => {
       try {
-        const getTransaction = await transaction.findByPk(id,{
-          attributes:['description','amount','date'],
-          include:[
-            { model:user,
-              attributes:['firstName','lastName','email']},
-            { model:category,
-              attributes:['name']},
-          ]
+        const newData = req.body;
+        const getTransaction = await transaction.findOne({
+          where: { id: req.params.id },
         });
-
         if(!getTransaction){
           throw new ErrorObject(
               "The transaction could not be found", 404
             );
         };
 
+        if (newData.userId) {
+          const existUser = await user.findOne({
+            where: {
+              id: newData.userId,
+            },
+          });
+          if (!existUser) {
+            throw new ErrorObject('The user is not valid', 400);
+          }
+        }
+
+        if (newData.categoryId) {
+          const existCategory = await category.findOne({
+            where: {
+              id: newData.categoryId,
+            },
+          });
+          if (!existCategory) {
+            throw new ErrorObject('The category is not valid', 400);
+          }
+        }
+
+        await transaction.update(req.body, {
+          where: { id: req.params.id },
+        });
+
         endpointResponse({
           res,
           code: 200,
-          body: getTransaction
+          message: 'The transaction was successfully updated',
         });
       } catch (error) {
         const httpError = createHttpError(
           error.statusCode,
-          `[Error retrieving transaction] - [transaction - GET]: ${error.message}`,
+          `[Error updating transaction] - [transaction - UPDATE]: ${error.message}`,
         )
         next(httpError)
       };
