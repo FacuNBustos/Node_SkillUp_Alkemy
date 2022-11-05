@@ -25,9 +25,8 @@ module.exports = {
 
             endpointResponse({
                 res,
-                message: 'Transaction has been deleted',
-                status: 200
-
+                code: 200,
+                message: 'Transaction has been deleted'
             })
         } catch (error) {
             const httpError = createHttpError(
