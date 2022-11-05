@@ -7,7 +7,7 @@ const getByIdCategory = require('../controllers/categories/getById.category');
 
 const router = express.Router();
 
+router.get("/:id", schemaValidator(getByIdSchema), getByIdCategory.run)
 router.post('', schemaValidator(createSchema), createCategory.run);
-router.put("/:id", schemaValidator(getByIdSchema), getByIdCategory.run)
 
 module.exports = router;
