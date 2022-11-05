@@ -23,7 +23,7 @@ module.exports = {
       const httpError = createHttpError(
         error.statusCode,
         `[Error getting all users] - [user - GET]: ${error.message}`,
-      )
+      );
       next(httpError);
     }
   }),
