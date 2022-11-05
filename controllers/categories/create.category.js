@@ -19,7 +19,7 @@ module.exports = {
     } catch (error) {
       const httpError = createHttpError(
         error.statusCode,
-        `[Error retrieving index] - [index - GET]: ${error.message}`
+        `[Error creating category] - [category - POST]: ${error.message}`
       );
       next(httpError);
     }
