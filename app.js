@@ -8,7 +8,8 @@ require('dotenv').config();
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
-const transactionRouter = require('./routes/transaction');
+const transactionRouter = require('./routes/transaction')
+const authRouter = require('./routes/auth')
 const categoryRouter = require('./routes/category');
 
 const port = process.env.PORT || 3000;
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', userRouter);
+app.use('/auth', authRouter);
 app.use('/transactions', transactionRouter);
 app.use('/categories', categoryRouter);
 
