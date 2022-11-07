@@ -22,8 +22,7 @@ const createSchema = {
     },
     date: {
       in: ['body'],
-      
-      
+      isDate: true,
       errorMessage: 'date is wrong',
     },
   };
