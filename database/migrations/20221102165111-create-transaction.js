@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       description: {
         type: Sequelize.STRING,
@@ -14,43 +14,45 @@ module.exports = {
       },
       amount: {
         type: Sequelize.DECIMAL,
-        allowNull: false
+        allowNull: false,
       },
       date: {
         type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
-      userId:{
+      userId: {
         type: Sequelize.INTEGER,
-         references:{
-          model:'users',
-          key:'id'
-        } 
+        references: {
+          model: 'users',
+          key: 'id',
+        },
       },
-      categoryId:{
+      categoryId: {
         type: Sequelize.INTEGER,
-         references:{
-          model:'categories',
-          key:'id'
-        } 
+        references: {
+          model: 'categories',
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+        defaultValue: Sequelize.literal(
+          'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'
+        ),
       },
       deletedAt: {
-        type:Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('transactions');
-  }
+  },
 };

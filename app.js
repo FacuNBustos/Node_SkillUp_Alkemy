@@ -8,8 +8,8 @@ require('dotenv').config();
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
-const transactionRouter = require('./routes/transaction')
-const authRouter = require('./routes/auth')
+const transactionRouter = require('./routes/transaction');
+const authRouter = require('./routes/auth');
 const categoryRouter = require('./routes/category');
 
 const port = process.env.PORT || 3000;
