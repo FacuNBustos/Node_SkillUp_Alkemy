@@ -6,7 +6,6 @@ const deleteSchema = require('../schemas/users/delete.schema');
 const createSchema = require('../schemas/users/create.schema');
 const { getAllUsers }  = require('../controllers/users/getAllUser');
 const { createUsers }  = require('../controllers/users/create.user');
-const { getAllUsers }  = require('../controllers/users/getAllUser');
 const idSchema = require('../schemas/users/getid.schema');
 const updateSchema = require('../schemas/users/update.schema');
 const updateUser = require('../controllers/users/update.user');
