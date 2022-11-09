@@ -5,7 +5,7 @@ const { catchAsync } = require('../../helpers/catchAsync');
 const { ErrorObject } = require('../../helpers/error');
 const { user } = require('../../database/models');
 const { category } = require('../../database/models');
-
+const { encode } = require('../../config/jwt');
 // example of a controller. First call the service, then build the controller method
 module.exports = {
   post: catchAsync(async (req, res, next) => {
@@ -43,10 +43,11 @@ module.exports = {
           )
         );
       }
+      const jwtNewTransaction = encode(newTransaction.dataValues);
       endpointResponse({
         res,
         code: 201,
-        body: newTransaction,
+        body: jwtNewTransaction,
         message: 'The transaction was successfully created',
       });
     } catch (error) {

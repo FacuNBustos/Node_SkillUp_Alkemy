@@ -1,8 +1,8 @@
 const createHttpError = require('http-errors');
 const { user } = require('../../database/models');
-const jwt = require('jsonwebtoken');
 const { endpointResponse } = require('../../helpers/success');
 const { catchAsync } = require('../../helpers/catchAsync');
+const { encode } = require('../../config/jwt');
 
 module.exports = {
   getAllUsers: catchAsync(async (req, res, next) => {
@@ -12,7 +12,7 @@ module.exports = {
       });
 
       const jwtResponse = response.map((el) => {
-        return jwt.sign(el.dataValues, process.env.JWT_SECRET, {expiresIn: '1h'});
+        return encode(el.dataValues);
       });
 
       endpointResponse({

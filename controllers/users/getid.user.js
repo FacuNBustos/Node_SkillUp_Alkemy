@@ -3,7 +3,7 @@ const { endpointResponse } = require('../../helpers/success');
 const { ErrorObject } = require('../../helpers/error');
 const { user, transaction } = require('../../database/models');
 const createHttpError = require('http-errors');
-const jwt = require('jsonwebtoken');
+const { encode } = require('../../config/jwt');
 
 module.exports = {
   getid: catchAsync(async (req, res, next) => {
@@ -13,11 +13,7 @@ module.exports = {
         attributes: ['firstName', 'lastName', 'email', 'createdAt'],
       });
 
-      const jwtResponse = jwt.sign(
-        response.dataValues,
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' }
-      );
+      const jwtResponse = encode(response.dataValues);
 
       endpointResponse({
         res,

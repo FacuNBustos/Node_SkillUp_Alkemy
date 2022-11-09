@@ -1,9 +1,9 @@
 const { user, role } = require('../../database/models');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const { endpointResponse } = require('../../helpers/success');
 const { catchAsync } = require('../../helpers/catchAsync');
 const createHttpError = require('http-errors');
+const { encode } = require('../../config/jwt');
 
 module.exports = {
   login: catchAsync(async (req, res, next) => {
@@ -25,22 +25,16 @@ module.exports = {
         });
       }
 
-      userFind.dataValues.token = jwt.sign(
-        {
-          id: userFind.id,
-          roleId: userFind.roleId,
-        },
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' }
-      );
-
+      
+      
       const { password: pass, deletedAt, ...rest } = userFind.dataValues;
-
+      const jwtResponse = encode({password: pass, deletedAt, ...rest})
+      
       endpointResponse({
         res,
         code: 200,
         ok: 'true',
-        body: rest,
+        body: jwtResponse,
       });
     } catch (error) {
       const httpError = createHttpError(

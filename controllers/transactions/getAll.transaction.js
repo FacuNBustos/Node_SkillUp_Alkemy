@@ -2,6 +2,7 @@ const createHttpError = require('http-errors');
 const { transaction, user, category } = require('../../database/models');
 const { endpointResponse } = require('../../helpers/success');
 const { catchAsync } = require('../../helpers/catchAsync');
+const { encode } = require('../../config/jwt');
 
 module.exports = {
   get: catchAsync(async (req, res, next) => {
@@ -25,21 +26,25 @@ module.exports = {
         },
         limit: (Number(page) >= 1)? Number(page)*10 : 100
       });
+      
+      let jwtResponse = response.map((el) => {
+        return encode(el.dataValues);
+      });
 
       if (Number(page) >= 1) {
         let pageLenght = page*10;
-        response = response.slice(pageLenght-10, pageLenght);
+        jwtResponse = jwtResponse.slice(pageLenght-10, pageLenght);
 
         response.push({
           previous: (Number(page) > 1)? `http://localhost:3000/transactions${req.url.replace(`page=${page}`, `page=${Number(page)-1}`)}` : null,
-          next: (response.length == 10)? `http://localhost:3000/transactions${req.url.replace(`page=${page}`, `page=${Number(page)+1}`)}`: null
+          next: (jwtResponse.length == 10)? `http://localhost:3000/transactions${req.url.replace(`page=${page}`, `page=${Number(page)+1}`)}`: null
         })
       };
 
       endpointResponse({
         res,
         message: 'transactions retrieved successfully',
-        body: response,
+        body: jwtResponse,
       });
     } catch (error) {
       const httpError = createHttpError(
