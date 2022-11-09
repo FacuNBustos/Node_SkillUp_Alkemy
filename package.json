@@ -11,7 +11,7 @@
     "lint": "prettier -w ."
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "lint": "prettier -w .",
     "test": "mocha ./test/*.js"
   },

@@ -26,7 +26,7 @@ module.exports = {
         },
         limit: (Number(page) >= 1)? Number(page)*10 : 100
       });
-      
+
       let jwtResponse = response.map((el) => {
         return encode(el.dataValues);
       });
@@ -35,7 +35,7 @@ module.exports = {
         let pageLenght = page*10;
         jwtResponse = jwtResponse.slice(pageLenght-10, pageLenght);
 
-        response.push({
+        jwtResponse.push({
           previous: (Number(page) > 1)? `http://localhost:3000/transactions${req.url.replace(`page=${page}`, `page=${Number(page)-1}`)}` : null,
           next: (jwtResponse.length == 10)? `http://localhost:3000/transactions${req.url.replace(`page=${page}`, `page=${Number(page)+1}`)}`: null
         })
