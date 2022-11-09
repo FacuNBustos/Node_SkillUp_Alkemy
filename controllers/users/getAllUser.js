@@ -1,5 +1,6 @@
 const createHttpError = require('http-errors');
 const { user } = require('../../database/models');
+const jwt = require('jsonwebtoken');
 const { endpointResponse } = require('../../helpers/success');
 const { catchAsync } = require('../../helpers/catchAsync');
 
@@ -9,10 +10,15 @@ module.exports = {
       const response = await user.findAll({
         attributes: ['firstName', 'lastName', 'email', 'createdAt'],
       });
+
+      const jwtResponse = response.map((el) => {
+        return jwt.sign(el.dataValues, process.env.JWT_SECRET, {expiresIn: '1h'});
+      });
+
       endpointResponse({
         res,
         message: 'Users search successfully',
-        body: response,
+        body: jwtResponse,
       });
     } catch (error) {
       const httpError = createHttpError(

@@ -2,6 +2,7 @@ const { catchAsync } = require('../../helpers/catchAsync');
 const { endpointResponse } = require('../../helpers/success');
 const { user } = require('../../database/models');
 const { ErrorObject } = require('../../helpers/error');
+const jwt = require('jsonwebtoken');
 const createHttpError = require('http-errors');
 const bcrypt = require('bcrypt');
 
@@ -33,10 +34,16 @@ module.exports = {
         where: { email: req.body.email },
       });
 
+      const jwtResponse = jwt.sign(
+        response.dataValues,
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+      );
+
       endpointResponse({
         res,
         code: 200,
-        body: response,
+        body: jwtResponse,
         message: 'The user was successfully created',
       });
     } catch (error) {
