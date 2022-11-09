@@ -1,5 +1,6 @@
 const { user, role } = require('../../database/models');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const { endpointResponse } = require('../../helpers/success');
 const { catchAsync } = require('../../helpers/catchAsync');
 const createHttpError = require('http-errors');
@@ -23,7 +24,18 @@ module.exports = {
           ok: false,
         });
       }
+
+      userFind.dataValues.token = jwt.sign(
+        {
+          id: userFind.id,
+          roleId: userFind.roleId,
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+      );
+
       const { password: pass, deletedAt, ...rest } = userFind.dataValues;
+
       endpointResponse({
         res,
         code: 200,
