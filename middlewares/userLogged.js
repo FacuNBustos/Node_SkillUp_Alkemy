@@ -6,7 +6,7 @@ const { ErrorObject } = require('../helpers/error');
 const { catchAsync } = require('../helpers/catchAsync');
 
 const userLogged = catchAsync(async (req = request, res = response, next) => {
-  const token = req.header('auth-token');
+  const token = req.header('Authorization');
   if (!token) {
     throw new ErrorObject('authorization error', 403);
   }
