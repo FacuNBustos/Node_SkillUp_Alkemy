@@ -6,9 +6,9 @@ const { catchAsync } = require('../../helpers/catchAsync');
 module.exports = {
   get: catchAsync(async (req, res, next) => {
     try {
-      const { query: userId } = req.query;
+      const { query: userId, page} = req.query;
 
-      const response = await transaction.findAll({
+      let response = await transaction.findAll({
         attributes: ['id', 'description', 'amount', 'date'],
         include: [
           {
@@ -23,7 +23,18 @@ module.exports = {
         where: {
           ...(userId && { '$user.id$': userId }),
         },
+        limit: (Number(page) >= 1)? Number(page)*10 : 100
       });
+
+      if (Number(page) >= 1) {
+        let pageLenght = page*10;
+        response = response.slice(pageLenght-10, pageLenght);
+
+        response.push({
+          previous: (Number(page) > 1)? `http://localhost:3000/transactions${req.url.replace(`page=${page}`, `page=${Number(page)-1}`)}` : null,
+          next: (response.length == 10)? `http://localhost:3000/transactions${req.url.replace(`page=${page}`, `page=${Number(page)+1}`)}`: null
+        })
+      };
 
       endpointResponse({
         res,

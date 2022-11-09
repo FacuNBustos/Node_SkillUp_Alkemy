@@ -6,13 +6,17 @@ const { ErrorObject } = require('../helpers/error');
 const { catchAsync } = require('../helpers/catchAsync');
 
 const userLogged = catchAsync(async (req = request, res = response, next) => {
-  const token = req.header('Authorization');
+  const token = req.header('Authorization').split('Bearer ')[1];
   if (!token) {
     throw new ErrorObject('authorization error', 403);
   }
   try {
     const { id } = verify(token);
-    const userLogged = await db.user.findByPk(id);
+    const userLogged = await db.user.findByPk(id, {
+      attributes: {
+        exclude: ['password'],
+      },
+    });
     if (!userLogged) {
       throw new ErrorObject('user not found', 404);
     }
