@@ -4,6 +4,7 @@ const { user } = require('../../database/models');
 const { ErrorObject } = require('../../helpers/error');
 const createHttpError = require('http-errors');
 const bcrypt = require('bcrypt');
+const { body } = require('express-validator');
 
 module.exports = {
   createUsers: catchAsync(async (req, res, next) => {
@@ -19,7 +20,13 @@ module.exports = {
       }
 
       req.body.password = bcrypt.hashSync(req.body.password, 10);
-      await user.create(req.body);
+
+      const userData = req.body;
+      const avatar = req.file;
+      if (avatar) {
+        userData.avatar = avatar.filename;
+      }
+      await user.create(userData);
 
       const response = await user.findOne({
         attributes: [
