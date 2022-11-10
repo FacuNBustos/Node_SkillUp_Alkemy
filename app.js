@@ -6,14 +6,17 @@ const logger = require('morgan');
 const cors = require('cors');
 const swaggerDocs = require("./routes/swagger")
 require('dotenv').config();
+const multer = require('multer');
+
+
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 const transactionRouter = require('./routes/transaction');
 const authRouter = require('./routes/auth');
 const categoryRouter = require('./routes/category');
-const { userLogged } = require('./middlewares/userLogged');
-const port = process.env.PORT || 3000;
+const {userLogged} = require('./middlewares/userLogged');
+const port = process.env.PORT || 3001;
 
 const app = express();
 app.use(cors());
