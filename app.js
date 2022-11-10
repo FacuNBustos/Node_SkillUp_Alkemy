@@ -5,6 +5,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 require('dotenv').config();
+const multer = require('multer');
+
+
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
@@ -12,7 +15,7 @@ const transactionRouter = require('./routes/transaction');
 const authRouter = require('./routes/auth');
 const categoryRouter = require('./routes/category');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 const app = express();
 app.use(cors());
@@ -49,5 +52,20 @@ app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Servidor funcionando en el puerto ${port}`);
 });
+/////////////////////////////////////////////////////
+// app.use(multer({
+//   dest: path.join(__dirname, 'public/static'),
+//   fileFilter: function (req, file, cb) {
 
+//       var filetypes = /jpeg|jpg|png|gif/;
+//       var mimetype = filetypes.test(file.mimetype);
+//       var extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+//       if (mimetype && extname) {
+//           return cb(null, true);
+//       }
+//       cb("Error: File upload only supports the following filetypes - " + filetypes);
+//   },
+//   limits: {fileSize: 1000000},
+// }).single('image'));
 module.exports = app;
