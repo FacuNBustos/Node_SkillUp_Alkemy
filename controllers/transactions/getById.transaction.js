@@ -21,12 +21,12 @@ module.exports = {
       if (!getTransaction) {
         throw new ErrorObject('The transaction could not be found', 404);
       }
-      const jwtGetTransaction = encode(getTransaction.dataValues);
+      
 
-      endpointResponse({
+      next({
         res,
         code: 200,
-        body: jwtGetTransaction,
+        body: getTransaction,
       });
     } catch (error) {
       const httpError = createHttpError(

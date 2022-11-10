@@ -11,14 +11,10 @@ module.exports = {
         attributes: ['firstName', 'lastName', 'email', 'createdAt'],
       });
 
-      const jwtResponse = response.map((el) => {
-        return encode(el.dataValues);
-      });
-
-      endpointResponse({
+      next({
         res,
         message: 'Users search successfully',
-        body: jwtResponse,
+        body: response,
       });
     } catch (error) {
       const httpError = createHttpError(

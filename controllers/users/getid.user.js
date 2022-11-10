@@ -13,12 +13,10 @@ module.exports = {
         attributes: ['firstName', 'lastName', 'email', 'createdAt'],
       });
 
-      const jwtResponse = encode(response.dataValues);
-
-      endpointResponse({
+      next({
         res,
         message: 'Users search successfully',
-        body: jwtResponse,
+        body: response,
       });
     } catch (error) {
       const httpError = createHttpError(

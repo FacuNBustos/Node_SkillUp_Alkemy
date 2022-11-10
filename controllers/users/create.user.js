@@ -14,7 +14,7 @@ module.exports = {
           email: req.body.email,
         },
       });
-
+      
       if (userEmailExist) {
         throw new ErrorObject('This mail already exists', 404);
       }
@@ -33,15 +33,16 @@ module.exports = {
         ],
         where: { email: req.body.email },
       });
+      
 
-      const jwtResponse = encode(response.dataValues);
 
-      endpointResponse({
+      next({
         res,
         code: 200,
-        body: jwtResponse,
+        body: response,
         message: 'The user was successfully created',
       });
+
     } catch (error) {
       const httpError = createHttpError(
         error.statusCode,

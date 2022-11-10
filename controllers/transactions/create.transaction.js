@@ -43,11 +43,11 @@ module.exports = {
           )
         );
       }
-      const jwtNewTransaction = encode(newTransaction.dataValues);
-      endpointResponse({
+      
+      next({
         res,
         code: 201,
-        body: jwtNewTransaction,
+        body: newTransaction,
         message: 'The transaction was successfully created',
       });
     } catch (error) {
