@@ -12,6 +12,7 @@ const { createUsers } = require('../controllers/users/create.user');
 const idSchema = require('../schemas/users/getid.schema');
 const updateSchema = require('../schemas/users/update.schema');
 const updateUser = require('../controllers/users/update.user');
+const getAllSchema = require('../schemas/users/getAll.schema');
 
 const router = express.Router();
 
@@ -22,7 +23,7 @@ router.post(
   createUsers
 );
 
-router.get('/', userLogged, getAllUsers);
+router.get('/', schemaValidator(getAllSchema), userLogged, getAllUsers);
 
 router.get(
   '/:id',
