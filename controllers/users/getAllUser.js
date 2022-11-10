@@ -2,6 +2,7 @@ const createHttpError = require('http-errors');
 const { user } = require('../../database/models');
 const { endpointResponse } = require('../../helpers/success');
 const { catchAsync } = require('../../helpers/catchAsync');
+const { encode } = require('../../config/jwt');
 
 module.exports = {
   getAllUsers: catchAsync(async (req, res, next) => {
@@ -31,7 +32,8 @@ module.exports = {
           nextPage: `http://localhost:3000/users${req.url.replace(`page=${actualPage}`, `page=${Number(actualPage)+1}`)}`,
         })
       };
-      endpointResponse({
+
+      next({
         res,
         message: 'Users search successfully',
         body: response,

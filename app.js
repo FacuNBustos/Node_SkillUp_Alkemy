@@ -15,7 +15,7 @@ const userRouter = require('./routes/user');
 const transactionRouter = require('./routes/transaction');
 const authRouter = require('./routes/auth');
 const categoryRouter = require('./routes/category');
-
+const {userLogged} = require('./middlewares/userLogged');
 const port = process.env.PORT || 3001;
 
 const app = express();
@@ -28,9 +28,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', userRouter);
+app.use('/users', userLogged, userRouter);
 app.use('/auth', authRouter);
-app.use('/transactions', transactionRouter);
+app.use('/transactions', userLogged, transactionRouter);
 app.use('/categories', categoryRouter);
 swaggerDocs(app);
 
