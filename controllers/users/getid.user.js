@@ -3,6 +3,7 @@ const { endpointResponse } = require('../../helpers/success');
 const { ErrorObject } = require('../../helpers/error');
 const { user, transaction } = require('../../database/models');
 const createHttpError = require('http-errors');
+const { encode } = require('../../config/jwt');
 
 module.exports = {
   getid: catchAsync(async (req, res, next) => {
@@ -11,7 +12,8 @@ module.exports = {
         where: { id: req.params.id },
         attributes: ['firstName', 'lastName', 'email', 'createdAt'],
       });
-      endpointResponse({
+
+      next({
         res,
         message: 'Users search successfully',
         body: response,
