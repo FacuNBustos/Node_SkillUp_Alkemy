@@ -11,12 +11,13 @@ const {
 const deleteSchema = require('../schemas/transactions/delete.schema');
 const { post } = require('../controllers/transactions/create.transaction');
 const createSchema = require('../schemas/transactions/create.schema');
+const tokenGenerator = require('../middlewares/tokenGenerator');
 
 const router = express.Router();
 
-router.get('/', get);
-router.get('/:id', schemaValidator(idSchema), getById);
-router.post('/', schemaValidator(createSchema), post);
+router.get('/', get,tokenGenerator.tokenGen);
+router.get('/:id', schemaValidator(idSchema), getById ,tokenGenerator.tokenGen);
+router.post('/', schemaValidator(createSchema), post ,tokenGenerator.tokenGen);
 router.put('/:id', schemaValidator(updateSchema), updateById);
 router.delete('/:id', schemaValidator(deleteSchema), deleteOne);
 

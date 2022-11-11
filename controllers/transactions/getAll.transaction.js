@@ -2,6 +2,7 @@ const createHttpError = require('http-errors');
 const { transaction, user, category } = require('../../database/models');
 const { endpointResponse } = require('../../helpers/success');
 const { catchAsync } = require('../../helpers/catchAsync');
+const { encode } = require('../../config/jwt');
 
 module.exports = {
   get: catchAsync(async (req, res, next) => {
@@ -26,6 +27,8 @@ module.exports = {
         limit: (Number(page) >= 1)? Number(page)*10 : 100
       });
 
+     
+
       if (Number(page) >= 1) {
         let pageLenght = page*10;
         response = response.slice(pageLenght-10, pageLenght);
@@ -36,7 +39,7 @@ module.exports = {
         })
       };
 
-      endpointResponse({
+      next({
         res,
         message: 'transactions retrieved successfully',
         body: response,

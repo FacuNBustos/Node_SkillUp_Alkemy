@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const { endpointResponse } = require('../../helpers/success');
 const { catchAsync } = require('../../helpers/catchAsync');
 const createHttpError = require('http-errors');
+const { encode } = require('../../config/jwt');
 
 module.exports = {
   login: catchAsync(async (req, res, next) => {
@@ -23,12 +24,17 @@ module.exports = {
           ok: false,
         });
       }
+
+      
+      
       const { password: pass, deletedAt, ...rest } = userFind.dataValues;
+      const jwtResponse = encode({password: pass, deletedAt, ...rest})
+      
       endpointResponse({
         res,
         code: 200,
         ok: 'true',
-        body: rest,
+        body: jwtResponse,
       });
     } catch (error) {
       const httpError = createHttpError(

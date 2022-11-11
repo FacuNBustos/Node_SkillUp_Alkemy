@@ -4,6 +4,7 @@ const { user } = require('../../database/models');
 const { ErrorObject } = require('../../helpers/error');
 const createHttpError = require('http-errors');
 const bcrypt = require('bcrypt');
+const { encode } = require('../../config/jwt');
 
 module.exports = {
   createUsers: catchAsync(async (req, res, next) => {
@@ -13,7 +14,7 @@ module.exports = {
           email: req.body.email,
         },
       });
-
+      
       if (userEmailExist) {
         throw new ErrorObject('This mail already exists', 404);
       }
@@ -32,13 +33,16 @@ module.exports = {
         ],
         where: { email: req.body.email },
       });
+      
 
-      endpointResponse({
+
+      next({
         res,
         code: 200,
         body: response,
         message: 'The user was successfully created',
       });
+
     } catch (error) {
       const httpError = createHttpError(
         error.statusCode,

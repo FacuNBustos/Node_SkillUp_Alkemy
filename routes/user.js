@@ -9,6 +9,9 @@ const { createUsers } = require('../controllers/users/create.user');
 const idSchema = require('../schemas/users/getid.schema');
 const updateSchema = require('../schemas/users/update.schema');
 const updateUser = require('../controllers/users/update.user');
+const getAllSchema = require('../schemas/users/getAll.schema');
+const uploadImage = require('../middlewares/multer');
+const tokenGenerator = require('../middlewares/tokenGenerator');
 
 const router = express.Router();
 
@@ -19,6 +22,13 @@ const router = express.Router();
  *     tags:
  *       - User
  *     description: Get all users in db
+ *     parameters:
+ *       - name: page
+ *         in: query
+ *         description: Number of items for pagination
+ *         required: false
+ *         schema:
+ *         type: string
  *     responses:
  *       200:
  *         description: OK
@@ -52,7 +62,7 @@ const router = express.Router();
  *                       type: date
  *                       example: 2022-11-08T17:47:41.000Z
  */
-router.get('/', getAllUsers);
+router.get('/', schemaValidator(getAllSchema),getAllUsers, tokenGenerator.tokenGen);
 /**
  * @openapi
  * /users:
@@ -111,7 +121,7 @@ router.get('/', getAllUsers);
  *       400:
  *         $ref: '#/components/responses/400User'
  */
-router.post('/', schemaValidator(createSchema), createUsers);
+router.post('/', schemaValidator(createSchema), createUsers, tokenGenerator.tokenGen);
 /**
  * @openapi
  * /users/{id}:
@@ -231,7 +241,7 @@ router.delete('/:id', schemaValidator(deleteSchema), deleteUser.run);
  *                        </html>'
  *
  */
-router.get('/:id', schemaValidator(idSchema), getAllUsersid.getid);
+router.get('/:id', schemaValidator(idSchema), getAllUsersid.getid, tokenGenerator.tokenGen);
 /**
  * @openapi
  * /users/{id}:
