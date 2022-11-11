@@ -32,6 +32,11 @@ module.exports = {
         req.body.password = bcrypt.hashSync(newData.password, 10);
       }
 
+      const avatar = req.file;
+      if (avatar) {
+        newData.avatar = avatar.filename;
+      }
+
       user.set(newData);
       await sequelize.transaction(async (t) => {
         await user.save({ transaction: t });
