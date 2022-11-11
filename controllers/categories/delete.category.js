@@ -16,7 +16,10 @@ module.exports = {
         { categoryId: null },
         { where: { categoryId: id } }
       );
-      await categoryExists.destroy({
+      await category.destroy({
+        where: {
+          id: id
+        },
         force: true,
       });
       endpointResponse({
