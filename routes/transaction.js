@@ -1,6 +1,5 @@
 const express = require('express');
 const schemaValidator = require('../middlewares/schemaValidator');
-const uploadImage = require('../middlewares/multer');
 const { userLogged } = require('../middlewares/userLogged');
 const { ownershipValidator } = require('../middlewares/ownershipValidator');
 const { getById } = require('../controllers/transactions/getById.transaction');
@@ -14,19 +13,21 @@ const {
 const deleteSchema = require('../schemas/transactions/delete.schema');
 const { post } = require('../controllers/transactions/create.transaction');
 const createSchema = require('../schemas/transactions/create.schema');
+const tokenGenerator = require('../middlewares/tokenGenerator');
 
 const router = express.Router();
 
-router.post('/', schemaValidator(createSchema), userLogged, post);
+router.post('/', schemaValidator(createSchema), userLogged, post, tokenGenerator.tokenGen);
 
-router.get('/', userLogged, get);
+router.get('/', userLogged, get, tokenGenerator.tokenGen);
 
 router.get(
   '/:id',
   schemaValidator(idSchema),
   userLogged,
   ownershipValidator,
-  getById
+  getById,
+  tokenGenerator.tokenGen
 );
 
 router.put(

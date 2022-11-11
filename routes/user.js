@@ -13,6 +13,8 @@ const idSchema = require('../schemas/users/getid.schema');
 const updateSchema = require('../schemas/users/update.schema');
 const updateUser = require('../controllers/users/update.user');
 const getAllSchema = require('../schemas/users/getAll.schema');
+const tokenGenerator = require('../middlewares/tokenGenerator');
+
 
 const router = express.Router();
 
@@ -20,17 +22,20 @@ router.post(
   '/',
   schemaValidator(createSchema),
   uploadImage.single('avatar'),
-  createUsers
+  createUsers,
+  tokenGenerator.tokenGen
 );
 
-router.get('/', schemaValidator(getAllSchema), userLogged, getAllUsers);
+router.get('/', schemaValidator(getAllSchema), userLogged, getAllUsers, tokenGenerator.tokenGen);
+
 
 router.get(
   '/:id',
   schemaValidator(idSchema),
   userLogged,
   ownershipValidator,
-  getAllUsersid.getid
+  getAllUsersid.getid,
+  tokenGenerator.tokenGen
 );
 
 router.put(

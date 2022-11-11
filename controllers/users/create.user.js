@@ -4,7 +4,6 @@ const { user } = require('../../database/models');
 const { ErrorObject } = require('../../helpers/error');
 const createHttpError = require('http-errors');
 const bcrypt = require('bcrypt');
-const { body } = require('express-validator');
 
 module.exports = {
   createUsers: catchAsync(async (req, res, next) => {
@@ -40,7 +39,7 @@ module.exports = {
         where: { email: req.body.email },
       });
 
-      endpointResponse({
+      next({
         res,
         code: 200,
         body: response,
