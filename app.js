@@ -4,18 +4,15 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-const swaggerDocs = require("./routes/swagger")
+const swaggerDocs = require('./routes/swagger');
 require('dotenv').config();
 const multer = require('multer');
-
-
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 const transactionRouter = require('./routes/transaction');
 const authRouter = require('./routes/auth');
 const categoryRouter = require('./routes/category');
-const {userLogged} = require('./middlewares/userLogged');
 const port = process.env.PORT || 3001;
 
 const app = express();
@@ -28,9 +25,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', userLogged, userRouter);
+app.use('/users', userRouter);
 app.use('/auth', authRouter);
-app.use('/transactions', userLogged, transactionRouter);
+app.use('/transactions', transactionRouter);
 app.use('/categories', categoryRouter);
 swaggerDocs(app);
 
