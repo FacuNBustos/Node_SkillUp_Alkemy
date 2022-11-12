@@ -8,12 +8,31 @@ module.exports = {
     try {
       let JWTbody;
 
-      if (newResponse.body.length) {
-        JWTbody = newResponse.body.map((el) => {
+      let pagination = newResponse.body.filter((el) => {
+        return el.nextPage || el.prevPage;
+      });
+
+      if (pagination) {
+        const filterArr = newResponse.body.filter((el) => {
+          return !el.nextPage && !el.prevPage;
+        });
+
+        JWTbody = filterArr.map((el) => {
           return encode(el.dataValues);
         });
+
+        JWTbody.push(pagination);
+
       } else {
-        JWTbody = encode(newResponse.body.dataValues);
+
+        if (newResponse.body.length) {
+          JWTbody = newResponse.body.map((el) => {
+            return encode(el.dataValues);
+          });
+        } else {
+          JWTbody = encode(newResponse.body.dataValues);
+        }
+        
       }
       endpointResponse({
         res: newResponse.res,
