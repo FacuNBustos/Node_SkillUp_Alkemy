@@ -131,8 +131,8 @@ router.get(
  */
 router.post(
   '/',
-  schemaValidator(createSchema),
   uploadImage.single('avatar'),
+  schemaValidator(createSchema),
   createUsers,
   tokenGenerator.tokenGen
 );
@@ -330,8 +330,8 @@ router.get(
  */
 router.put(
   '/:id',
-  schemaValidator(updateSchema),
   uploadImage.single('avatar'),
+  schemaValidator(updateSchema),
   userLogged,
   ownershipValidator,
   updateUser.run
