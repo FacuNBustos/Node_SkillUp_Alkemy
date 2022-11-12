@@ -44,6 +44,7 @@ module.exports = {
         );
       }
       req.body = newTransaction
+      res.statusCode = 201
       req.body.message = 'The transaction was successfully created'
       
       next();

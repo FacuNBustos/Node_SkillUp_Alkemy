@@ -39,6 +39,7 @@ module.exports = {
         where: { email: req.body.email },
       });
       req.body = response
+      res.statusCode = 201
       req.body.message = 'The user was successfully created'
       
       next();
