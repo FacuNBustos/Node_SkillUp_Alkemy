@@ -13,7 +13,6 @@ const idSchema = require('../schemas/users/getid.schema');
 const updateSchema = require('../schemas/users/update.schema');
 const updateUser = require('../controllers/users/update.user');
 const getAllSchema = require('../schemas/users/getAll.schema');
-const uploadImage = require('../middlewares/multer');
 const tokenGenerator = require('../middlewares/tokenGenerator');
 
 const router = express.Router();
