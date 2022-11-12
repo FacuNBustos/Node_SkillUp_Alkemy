@@ -1,5 +1,8 @@
 const express = require('express');
 const schemaValidator = require('../middlewares/schemaValidator');
+const uploadImage = require('../middlewares/multer');
+const { userLogged } = require('../middlewares/userLogged');
+const { ownershipValidator } = require('../middlewares/ownershipValidator');
 const deleteUser = require('../controllers/users/delete.user');
 const getAllUsersid = require('../controllers/users/getid.user');
 const deleteSchema = require('../schemas/users/delete.schema');
@@ -10,7 +13,6 @@ const idSchema = require('../schemas/users/getid.schema');
 const updateSchema = require('../schemas/users/update.schema');
 const updateUser = require('../controllers/users/update.user');
 const getAllSchema = require('../schemas/users/getAll.schema');
-const uploadImage = require('../middlewares/multer');
 const tokenGenerator = require('../middlewares/tokenGenerator');
 
 const router = express.Router();
@@ -62,7 +64,13 @@ const router = express.Router();
  *                       type: date
  *                       example: 2022-11-08T17:47:41.000Z
  */
-router.get('/', schemaValidator(getAllSchema),getAllUsers, tokenGenerator.tokenGen);
+router.get(
+  '/',
+  schemaValidator(getAllSchema),
+  userLogged,
+  getAllUsers,
+  tokenGenerator.tokenGen
+);
 /**
  * @openapi
  * /users:
@@ -121,7 +129,13 @@ router.get('/', schemaValidator(getAllSchema),getAllUsers, tokenGenerator.tokenG
  *       400:
  *         $ref: '#/components/responses/400User'
  */
-router.post('/', schemaValidator(createSchema), createUsers, tokenGenerator.tokenGen);
+router.post(
+  '/',
+  schemaValidator(createSchema),
+  uploadImage.single('avatar'),
+  createUsers,
+  tokenGenerator.tokenGen
+);
 /**
  * @openapi
  * /users/{id}:
@@ -151,7 +165,7 @@ router.post('/', schemaValidator(createSchema), createUsers, tokenGenerator.toke
  *                 code:
  *                   type: number
  *                   example: 200
- *                 message: 
+ *                 message:
  *                   type: string
  *                   example: The user was successfully deleted
  *       400:
@@ -173,7 +187,13 @@ router.post('/', schemaValidator(createSchema), createUsers, tokenGenerator.toke
  *                        </body>
  *                        </html>'
  */
-router.delete('/:id', schemaValidator(deleteSchema), deleteUser.run);
+router.delete(
+  '/:id',
+  schemaValidator(deleteSchema),
+  userLogged,
+  ownershipValidator,
+  deleteUser.run
+);
 /**
  * @openapi
  * /users/{id}:
@@ -241,14 +261,21 @@ router.delete('/:id', schemaValidator(deleteSchema), deleteUser.run);
  *                        </html>'
  *
  */
-router.get('/:id', schemaValidator(idSchema), getAllUsersid.getid, tokenGenerator.tokenGen);
+router.get(
+  '/:id',
+  schemaValidator(idSchema),
+  userLogged,
+  ownershipValidator,
+  getAllUsersid.getid,
+  tokenGenerator.tokenGen
+);
 /**
  * @openapi
  * /users/{id}:
  *   put:
  *     tags:
  *       - User
- *     description: Modify the values of a user by its identifier 
+ *     description: Modify the values of a user by its identifier
  *     parameters:
  *       - name: id
  *         in: path
@@ -279,7 +306,7 @@ router.get('/:id', schemaValidator(idSchema), getAllUsersid.getid, tokenGenerato
  *                 code:
  *                   type: number
  *                   example: 200
- *                 message: 
+ *                 message:
  *                   type: string
  *                   example: The user was successfully updated
  *       400:
@@ -301,7 +328,14 @@ router.get('/:id', schemaValidator(idSchema), getAllUsersid.getid, tokenGenerato
  *                        </html>'
  *
  */
-router.put('/:id', schemaValidator(updateSchema), updateUser.run);
+router.put(
+  '/:id',
+  schemaValidator(updateSchema),
+  uploadImage.single('avatar'),
+  userLogged,
+  ownershipValidator,
+  updateUser.run
+);
 /**
  * @openapi
  * components:
