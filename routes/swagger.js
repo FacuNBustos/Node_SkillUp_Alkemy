@@ -7,7 +7,21 @@ const options = {
         info: {
             title: "API grupo-n-7",
             version: "1.0.0"
-        }
+        },
+        components:{
+            securitySchemes:{
+                bearerAuth:{
+                    type:'http',
+                    scheme:'bearer',
+                    bearerFormat:'JWT',
+                    in:'header',
+                    description:'Enter JWT token in bearer format'
+                }
+            }
+        },
+        security: [{
+            bearerAuth:[]
+        }]
     },
     apis: [
         "./routes/auth.js",

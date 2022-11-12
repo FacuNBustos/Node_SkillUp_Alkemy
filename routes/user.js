@@ -256,7 +256,7 @@ router.delete(
  *                        <title>Error</title>
  *                        </head>
  *                        <body>
- *                        <pre>NotFoundError: [Error seaching by id user] - [user - GET]: The category could not be found<br></pre>
+ *                        <pre>NotFoundError: [Error seaching by id user] - [user - GET]: The user could not be found<br></pre>
  *                        </body>
  *                        </html>'
  *
