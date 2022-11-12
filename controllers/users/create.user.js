@@ -38,13 +38,12 @@ module.exports = {
         ],
         where: { email: req.body.email },
       });
+      req.body = response
+      res.statusCode = 201
+      req.body.message = 'The user was successfully created'
+      
+      next();
 
-      next({
-        res,
-        code: 200,
-        body: response,
-        message: 'The user was successfully created',
-      });
     } catch (error) {
       const httpError = createHttpError(
         error.statusCode,

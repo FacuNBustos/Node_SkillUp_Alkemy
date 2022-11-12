@@ -43,13 +43,12 @@ module.exports = {
           )
         );
       }
+      req.body = newTransaction
+      res.statusCode = 201
+      req.body.message = 'The transaction was successfully created'
       
-      next({
-        res,
-        code: 201,
-        body: newTransaction,
-        message: 'The transaction was successfully created',
-      });
+      next();
+      
     } catch (error) {
       const httpError = createHttpError(
         error.statusCode,

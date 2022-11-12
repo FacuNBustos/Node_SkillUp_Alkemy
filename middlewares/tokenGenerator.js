@@ -4,21 +4,42 @@ const { ErrorObject } = require('../helpers/error');
 const { endpointResponse } = require('../helpers/success');
 
 module.exports = {
-  tokenGen: async (newResponse, req, res, next) => {
+  tokenGen: async (req, res, next) => {
     try {
+      
       let JWTbody;
-
-      if (newResponse.body.length) {
-        JWTbody = newResponse.body.map((el) => {
-          return encode(el.dataValues);
+      if (req.body.length) {
+        let pagination = req.body.filter((el) => {
+          return el.nextPage || el.prevPage;
         });
+       
+        if (pagination) {
+
+          const filterArr = req.body.filter((el) => {
+            return !el.nextPage && !el.prevPage;
+          });
+
+          JWTbody = filterArr.map((el) => {
+            return encode(el.dataValues);
+          });
+
+          JWTbody.push(pagination);
+          
+        } else {
+
+          JWTbody = req.body.map((el) => {
+            return encode(el.dataValues);
+          });
+
+        }
       } else {
-        JWTbody = encode(newResponse.body.dataValues);
+        JWTbody = encode(req.body.dataValues);
       }
+
       endpointResponse({
-        res: newResponse.res,
-        code: newResponse.code,
-        message: newResponse.message,
+        res: res,
+        code: res.statusCode,
+        message: req.body.message,
         body: JWTbody,
       });
     } catch (error) {

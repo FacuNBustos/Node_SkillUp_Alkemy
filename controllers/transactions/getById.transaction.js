@@ -22,12 +22,11 @@ module.exports = {
         throw new ErrorObject('The transaction could not be found', 404);
       }
       
+      req.body = getTransaction
+      req.body.message = 'Transaction retrieved successfully'
+      
+      next();
 
-      next({
-        res,
-        code: 200,
-        body: getTransaction,
-      });
     } catch (error) {
       const httpError = createHttpError(
         error.statusCode,
