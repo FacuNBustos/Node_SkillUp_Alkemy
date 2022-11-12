@@ -19,7 +19,7 @@ module.exports = {
       endpointResponse({
         res,
         message: 'Category search successfully',
-        body: { categorySaved },
+        body: categorySaved,
       });
     } catch (error) {
       const httpError = createHttpError(

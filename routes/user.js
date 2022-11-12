@@ -1,5 +1,8 @@
 const express = require('express');
 const schemaValidator = require('../middlewares/schemaValidator');
+const uploadImage = require('../middlewares/multer');
+const { userLogged } = require('../middlewares/userLogged');
+const { ownershipValidator } = require('../middlewares/ownershipValidator');
 const deleteUser = require('../controllers/users/delete.user');
 const getAllUsersid = require('../controllers/users/getid.user');
 const deleteSchema = require('../schemas/users/delete.schema');
@@ -15,12 +18,41 @@ const tokenGenerator = require('../middlewares/tokenGenerator');
 
 const router = express.Router();
 
+router.post(
+  '/',
+  schemaValidator(createSchema),
+  uploadImage.single('avatar'),
+  createUsers,
+  tokenGenerator.tokenGen
+);
+
+router.get('/', schemaValidator(getAllSchema), userLogged, getAllUsers, tokenGenerator.tokenGen);
 
 
-router.get('/', schemaValidator(getAllSchema), getAllUsers,tokenGenerator.tokenGen);
-router.post('/', schemaValidator(createSchema), createUsers,tokenGenerator.tokenGen);
-router.delete('/:id', schemaValidator(deleteSchema), deleteUser.run);
-router.get('/:id', schemaValidator(idSchema), getAllUsersid.getid , tokenGenerator.tokenGen);
-router.put('/:id', schemaValidator(updateSchema), updateUser.run);
+router.get(
+  '/:id',
+  schemaValidator(idSchema),
+  userLogged,
+  ownershipValidator,
+  getAllUsersid.getid,
+  tokenGenerator.tokenGen
+);
+
+router.put(
+  '/:id',
+  schemaValidator(updateSchema),
+  uploadImage.single('avatar'),
+  userLogged,
+  ownershipValidator,
+  updateUser.run
+);
+
+router.delete(
+  '/:id',
+  schemaValidator(deleteSchema),
+  userLogged,
+  ownershipValidator,
+  deleteUser.run
+);
 
 module.exports = router;

@@ -14,8 +14,11 @@ module.exports = {
         throw new ErrorObject('The category could not be found', 404);
       }
 
-      categoryFound.set(newData);
-      await categoryFound.save();
+      await category.update({...newData}, {
+        where: {
+          id: id
+        }
+      });
 
       endpointResponse({
         res,
