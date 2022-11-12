@@ -33,11 +33,11 @@ module.exports = {
         })
       };
 
-      next({
-        res,
-        message: 'Users search successfully',
-        body: response,
-      });
+      req.body = response;
+      req.body.message ='Users search successfully'
+  
+      next();
+
     } catch (error) {
       const httpError = createHttpError(
         error.statusCode,

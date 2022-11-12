@@ -12,12 +12,10 @@ module.exports = {
         where: { id: req.params.id },
         attributes: ['firstName', 'lastName', 'email', 'createdAt'],
       });
-
-      next({
-        res,
-        message: 'Users search successfully',
-        body: response,
-      });
+      req.body = response;
+      req.message = 'Users search successfully'
+      
+      next();
     } catch (error) {
       const httpError = createHttpError(
         error.statusCode,

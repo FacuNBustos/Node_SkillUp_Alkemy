@@ -34,16 +34,16 @@ module.exports = {
         response = response.slice(pageLenght-10, pageLenght);
 
         response.push({
-          previous: (Number(page) > 1)? `http://localhost:3000/transactions${req.url.replace(`page=${page}`, `page=${Number(page)-1}`)}` : null,
-          next: (response.length == 10)? `http://localhost:3000/transactions${req.url.replace(`page=${page}`, `page=${Number(page)+1}`)}`: null
+          prevPage: (Number(page) > 1)? `http://localhost:3000/transactions${req.url.replace(`page=${page}`, `page=${Number(page)-1}`)}` : null,
+          nextPage: (response.length == 10)? `http://localhost:3000/transactions${req.url.replace(`page=${page}`, `page=${Number(page)+1}`)}`: null
         })
       };
 
-      next({
-        res,
-        message: 'transactions retrieved successfully',
-        body: response,
-      });
+      req.body = response
+      req.body.message = 'transactions retrieved successfully'
+
+      next();
+
     } catch (error) {
       const httpError = createHttpError(
         error.statusCode,
