@@ -1,20 +1,23 @@
 const { catchAsync } = require('../../helpers/catchAsync');
 const { endpointResponse } = require('../../helpers/success');
 const { ErrorObject } = require('../../helpers/error');
-const { user, transaction } = require('../../database/models');
+const { user: User, transaction } = require('../../database/models');
 const createHttpError = require('http-errors');
 const { encode } = require('../../config/jwt');
 
 module.exports = {
   getid: catchAsync(async (req, res, next) => {
     try {
-      const response = await user.findOne({
+      const user = await User.findOne({
         where: { id: req.params.id },
         attributes: ['firstName', 'lastName', 'email', 'createdAt'],
       });
-      req.body = response;
-      req.message = 'Users search successfully'
-      
+      if (!user) {
+        throw new ErrorObject('The user could not be found', 404);
+      }
+      req.body = user;
+      req.message = 'Users search successfully';
+
       next();
     } catch (error) {
       const httpError = createHttpError(
