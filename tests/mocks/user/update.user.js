@@ -1,0 +1,3 @@
+module.exports = {
+  firstName: 'linux',
+};

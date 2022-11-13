@@ -13,7 +13,9 @@
   "scripts": {
     "start": "node app.js",
     "lint": "prettier -w .",
-    "test": "mocha ./tests/**/**/*.js"
+    "db_test": "sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all",
+    "db_test_mocha": "npm run db_test && mocha ./tests/**/**/*.js",
+    "test": "NODE_ENV=test npm run db_test_mocha"
   },
   "engines": {
     "node": ">=0.14"
