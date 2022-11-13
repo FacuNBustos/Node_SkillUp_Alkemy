@@ -8,7 +8,7 @@ module.exports = {
     try {
       
       let JWTbody;
-      if (req.body.length) {
+      if (req.body.length && req.body.length!=0) {
         let pagination = req.body.filter((el) => {
           return el.nextPage || el.prevPage;
         });
@@ -33,14 +33,20 @@ module.exports = {
 
         }
       } else {
-        JWTbody = encode(req.body.dataValues);
+        if(req.body.dataValues){
+          JWTbody = encode(req.body.dataValues);
+        }
+        else{
+          JWTbody = [];
+        }
+        
       }
 
       endpointResponse({
         res: res,
         code: res.statusCode,
         message: req.body.message,
-        body: JWTbody,
+        body: JWTbody
       });
     } catch (error) {
       const httpError = createHttpError(
