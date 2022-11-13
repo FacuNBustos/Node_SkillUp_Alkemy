@@ -186,7 +186,7 @@ const router = express.Router();
   *             amount: Transaction amount here
   *             userId: Transaction user by id here
   *             categoryId: Transaction category by idhere
-  *             date: Transaction date here
+  *             date: Transaction date here -YYYY-MM-DD
   *     responses:
   *       201:
   *         description: true
