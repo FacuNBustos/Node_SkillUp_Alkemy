@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
 });
 
 const filterMimetype = (req, file, cb) => {
-  const mimetypeRegex = /^image\/(jpg|png|svg|webp)$/;
+  const mimetypeRegex = /^image\/(jpg|jpeg|png|svg|webp)$/;
   if (file && !mimetypeRegex.test(file.mimetype)) {
     return cb(new Error('invalid image'));
   }

@@ -13,7 +13,7 @@ module.exports = {
         res,
         code: 201,
         status: 'Created',
-        message: 'The category was succesfully created',
+        message: 'The category was successfully created',
         body: newCategory,
       });
     } catch (error) {
