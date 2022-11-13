@@ -6,9 +6,7 @@ const logger = require('morgan');
 const cors = require('cors');
 const swaggerDocs = require('./routes/swagger');
 require('dotenv').config();
-const multer = require('multer');
 
-const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 const transactionRouter = require('./routes/transaction');
 const authRouter = require('./routes/auth');
@@ -24,7 +22,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
 app.use('/users', userRouter);
 app.use('/auth', authRouter);
 app.use('/transactions', transactionRouter);
