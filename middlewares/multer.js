@@ -12,13 +12,11 @@ const storage = multer.diskStorage({
 });
 
 const filterMimetype = (req, file, cb) => {
-  const filetypes = /[jpg|png|svg|webp]/;
-  const mimetype = filetypes.test(file.mimetype);
-  const extname = filetypes.test(path.extname(file.originalname));
-  if (mimetype && extname) {
-    return cb(null, true);
+  const mimetypeRegex = /^image\/(jpg|png|svg|webp)$/;
+  if (file && !mimetypeRegex.test(file.mimetype)) {
+    return cb(new Error('invalid image'));
   }
-  cb('Solo se admiten jpg,png,svg o webp');
+  cb(null, true);
 };
 
 const uploadImage = multer({ storage, fileFilter: filterMimetype });
