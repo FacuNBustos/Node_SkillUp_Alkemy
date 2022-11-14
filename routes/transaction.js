@@ -138,7 +138,7 @@ const router = express.Router();
   *             amount: Transaction amount here
   *             userId: Transaction user by id here
   *             categoryId: Transaction category by idhere
-  *             date: Transaction date here
+  *             date: Transaction date here -YYYY-MM-DD
   *     responses:
   *       201:
   *         description: true
@@ -158,22 +158,6 @@ const router = express.Router();
   *                   example: The transaction was successfully updated
   *       400:
   *         $ref: '#/components/responses/400Transactions'
-  *       404:
-  *         description: The transaction you want to create has not been found
-  *         content:
-  *           text/html:
-  *             schema:
-  *               type: html
-  *               example: '<!DOCTYPE html>
-  *                        <html lang="en">
-  *                        <head>
-  *                        <meta charset="utf-8">
-  *                        <title>Error</title>
-  *                        <body>
-  *                        <pre>NotFoundError: [Error creating transaction] - [transaction - POST]: The transaction could not be created<br></pre>
-  *                        </body>
-  *                        </html>'
-  *
   */
   router.post('/', schemaValidator(createSchema), userLogged, post, tokenGenerator.tokenGen);
 
@@ -202,7 +186,7 @@ const router = express.Router();
   *             amount: Transaction amount here
   *             userId: Transaction user by id here
   *             categoryId: Transaction category by idhere
-  *             date: Transaction date here
+  *             date: Transaction date here -YYYY-MM-DD
   *     responses:
   *       201:
   *         description: true
@@ -316,6 +300,10 @@ const router = express.Router();
   *         categoryId:
   *           description: Transaction category
   *           type: integer
+  *           required: true
+  *         date:
+  *           description: Transaction date
+  *           type: date
   *           required: true
   *   responses:
   *     400Transactions:
